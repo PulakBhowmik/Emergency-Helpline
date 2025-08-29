@@ -1,9 +1,11 @@
+
 let heartCount = Number(document.getElementById("heart-count").innerText);
 let coinCount = Number(document.getElementById("coin-count").innerText);
 let copyCount = Number(document.getElementById("copy-count").innerText);
 
 const cards = document.getElementsByClassName("card");
 const historyCard = document.getElementById("history-card");
+const clearBtn = document.getElementById("clear-btn");
 
 for (let card of cards) {
   // Heart Count
@@ -22,16 +24,15 @@ for (let card of cards) {
     minute: "2-digit",
     second: "2-digit",
   });
-  console.log(title, number, time);
 
   const callBtn = card.childNodes[15].childNodes[3];
   callBtn.addEventListener("click", function () {
     if (coinCount < 20) {
-      alert("Not enough coins to make a call!");
+      alert("❌Not enough coins to make a call!");
       return;
     }
 
-    alert('📞 Calling ${title} ${number}');
+    alert(`📞 Calling ${title} ${number}`);
 
     coinCount = coinCount - 20;
     document.getElementById("coin-count").innerText = coinCount;
@@ -48,4 +49,17 @@ for (let card of cards) {
     `;
     historyCard.appendChild(newHistory);
   });
+
+  const copyBtn = card.childNodes[15].childNodes[1];
+  copyBtn.addEventListener("click", function () {
+    navigator.clipboard.writeText(number);
+    alert("Copied: " + number);
+    copyCount++;
+    document.getElementById("copy-count").innerText = copyCount;
+  });
 }
+
+// clear button
+    clearBtn.addEventListener("click", function () {
+    historyCard.innerHTML = "";
+    });
